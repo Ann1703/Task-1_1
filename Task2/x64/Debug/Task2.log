@@ -1,0 +1,5 @@
+﻿  Task2.c
+C:\Users\Anna\Desktop\Task2\Task2\Task2.c(26,3): warning C4013: abort: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\Anna\Desktop\Task2\Task2\Task2.c(35,3): warning C4033: "get_ounce" должен возвращать значение
+C:\Users\Anna\Desktop\Task2\Task2\Task2.c(36): warning C4716: get_ounce: должна возвращать значение
+  Task2.vcxproj -> C:\Users\Anna\Desktop\Task2\x64\Debug\Task2.exe
