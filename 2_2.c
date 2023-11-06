@@ -22,9 +22,6 @@ double getEquation1(double x, double const a);
 **/
 double getEquation2(double x, double const a);
 
-double RamifiedProcess(double const x, double const a);
-double x = 0.0;
-
 /**
 * @brief Точка входа в программу
 * @return Возвращает 0, если программа работает правильно, иначе 1
@@ -34,8 +31,18 @@ int main()
 	printf_s("Enter x: ");
 	double x = getNumber();
 	const double a = 2.3;
-	printf_s("Value is %lf\n", RamifiedProcess(x, a));
+	
+	if (x < 2)
+	{
+		printf_s("Value is %lf\n", getEquation1 (x,a));
+	}
+	else if (x >= 2)
+	{
+		printf_s("Value is %lf\n", getEquation2(x, a));
+	}
+	return 0;
 }
+
 double getNumber()
 {
 	double x;
@@ -46,18 +53,12 @@ double getNumber()
 	printf_s("Wrong value");
 	abort();
 }
-double RamifiedProcess(double const x, double const a)
-{
-	if (x < 2)
-		return getEquation1(x, a);
-	else if (x >= 2)
-		return getEquation2(x, a);
-}
 
 double getEquation1(double x, double const a)
 {
 	return 1.5 * pow(cos(x), 2);
 }
+
 double getEquation2(double x, double const a)
 {
 	return pow ((x-2),2)+6;
