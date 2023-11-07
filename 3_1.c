@@ -1,6 +1,8 @@
 ﻿#include <stdio.h>
 #include <stdlib.h> 
 #include <math.h> 
+#include <float.h> 
+#include <stdbool.h> 
 
 
 /**
@@ -17,6 +19,13 @@ double getFunction(double x);
 double getNumber();
 
 /**
+* @brief Проверка принадлежности x к ООФ
+* @param x - значение переменной x
+* @return Возвращает значение функции
+*/
+bool isExist(double x);
+
+/**
 * @brief Точка входа в программу
 * @return Возвращает 0, если программа работает верно
 */
@@ -26,43 +35,48 @@ int main()
 	double beginInterval = getNumber();
 	printf_s("Enter the end of the interval: ");
 	double endInterval = getNumber();
-	/*printf_s("Enter step value: ");
-	double stepValue = getNumber();*/
-	double const stepValue = 0.1;
-
-	for (double x = 1; x < 2; x += stepValue)
-	{
-		double y = getFunction(x);
+	printf_s("Enter step: ");
+	double stepValue = getNumber();
 		
-		if (y < scanf_s("%d", &beginInterval  && y > scanf_s("%d", &endInterval) ))
-		{
-			printf_s("%s\n","Function not found  ");
-		}
-		if (y > scanf_s("%d", &beginInterval && y < scanf_s("%d", &endInterval)))
-		{
+	for (double x = beginInterval; x - DBL_EPSILON < endInterval; x += stepValue)
+	{
 			printf_s("x = %lf", x);
-			printf_s(" y = %lf\n", y);
-		}
-
+			if (isExist(x))
+			{
+				double y = getFunction(x);
+				printf_s(" y = %lf\n", y);
+				
+			}
+			printf_s("break\n");
 	}
-	
+		
 	return 0;
 }
-double getFunction(double x)
-{
-	return cos(2 / x) - 2 * sin(1 / x) + (1 / x);
-}
-
 double getNumber()
 {
 	double enteredNumber;
 	if (scanf_s("%d", &enteredNumber) <= 3)
 	{
-		return enteredNumber;
+		printf_s("Wrong value");
+		abort();
 	}
-	printf_s("Wrong value");
-	abort();
-
+	return enteredNumber;
 }
+
+double getFunction(double x)
+{
+	return cos(2 / x) - 2 * sin(1 / x) + (1 / x);
+}
+
+bool isExist(double x)
+{
+	if (fabs (x) < DBL_EPSILON)
+	{
+		scanf_s("error");
+		return 0;
+	}
+	return 1;
+}
+
 
 
