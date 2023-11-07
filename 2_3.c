@@ -82,13 +82,11 @@ double getTimeStartRest(double t1,double v1, double t2, double v2,double t3,doub
             return (halfWay - getWay(t1, v1)) / v2 + t1;
         }
      return (halfWay - getWay(t1, v1) - getWay(t2, v2)) / v3 + t1 + t2;
-        
-       
  }
 
 double halfSumWay(double t1, double v1, double t2, double v2, double t3, double v3)
 {
-    return (t1 * v1 + t2 * v2 + t3 * v3)/2;
+    return (getWay(t1, v1) + getWay(t2, v2) + getWay(t3, v3))/2;
 }
 
 double getWay(double time, double speed)
