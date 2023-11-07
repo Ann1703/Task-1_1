@@ -99,10 +99,10 @@ double getNumber()
 	double x;
 	if (scanf_s(" %lf", &x) == 1 && x > 0)
 	{
-		return x;
+		printf_s("Wrong value");
+		abort();
 	}
-	printf_s("Wrong value");
-	abort();
+	return x;
 }
 
 int getNumberInt()
@@ -118,9 +118,7 @@ int getNumberInt()
 
 int isCorrect(double A, double B, double C,double D)
 {
-	if ( fabs (A-C)<DBL_EPSILON && fabs(B - D) < DBL_EPSILON)
-		return 1;
-	return 0;
+	return fabs(A - C) < DBL_EPSILON && fabs(B - D) < DBL_EPSILON);
 }
 
 double getPerimetr(double A, double B)
