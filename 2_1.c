@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <float.h>
 enum Variants
 {
 	PERIMETR = 1,
@@ -117,7 +118,7 @@ int getNumberInt()
 
 int isCorrect(double A, double B, double C,double D)
 {
-	if ( A = C && B==D )
+	if ( fabs (A-C)<DBL_EPSILON && fabs(B - D) < DBL_EPSILON)
 		return 1;
 	return 0;
 }
