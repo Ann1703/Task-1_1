@@ -36,10 +36,9 @@ int main()
 	{
 		printf_s("Value is %lf\n", getEquation1 (x,a));
 	}
-	else if (x >= 2)
-	{
-		printf_s("Value is %lf\n", getEquation2(x, a));
-	}
+	
+	printf_s("Value is %lf\n", getEquation2(x, a));
+	
 	return 0;
 }
 
@@ -48,10 +47,10 @@ double getNumber()
 	double x;
 	if (scanf_s(" %lf", &x) == 1 && x > 0)
 	{
-		return x;
+		printf_s("Wrong value");
+		abort();
 	}
-	printf_s("Wrong value");
-	abort();
+		return x;
 }
 
 double getEquation1(double x, double const a)
