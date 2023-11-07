@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
+#include <stdbool.h>
 enum Variants
 {
 	PERIMETR = 1,
@@ -23,14 +24,12 @@ double getNumber();
 * @param D -четвертая сторона прямоугольника
 * @return Возвращает 1, если прямоугольника существует, иначе 0
 */
-int isCorrect(double A, double B, double C);
+bool isCorrect(double A, double B, double C, double D);
 
 /**
 * @brief рассчитывает периметр прямоугольника
 * @param A -первая сторона прямоугольника
 * @param B -вторая сторона прямоугольника
-* @param С -третья сторона прямоугольника
-* @param D -четвертая сторона прямоугольника
 * @return Возвращает периметр прямоугольника
 */
 double getPerimetr(double A, double B);
@@ -39,8 +38,6 @@ double getPerimetr(double A, double B);
 * @brief рассчитывает площадь прямоугольника
 * @param A -первая сторона прямоугольника
 * @param B -вторая сторона прямоугольника
-* @param С -третья сторона прямоугольника
-* @param D -четвертая сторона прямоугольника
 * @return Возвращает площадь прямоугольника
 */
 double getSquare(double A, double B);
@@ -49,8 +46,6 @@ double getSquare(double A, double B);
 * @brief рассчитывает длину диагонали прямоугольника
 * @param A -первая сторона прямоугольника
 * @param B -вторая сторона прямоугольника
-* @param С -третья сторона прямоугольника
-* @param D -четвертая сторона прямоугольника
 * @return Возвращает площадь прямоугольника
 */
 double getDiagonalLength(double A, double B);
@@ -69,7 +64,7 @@ int main()
 	double sideC = getNumber();
 	printf_s("Enter D: ");
 	double sideD = getNumber();
-	if (isCorrect(sideA, sideB, sideC,sideD))
+	if (isCorrect(sideA, sideB, sideC, sideD))
 	{
 		printf_s("Enter %d to get perimetr, %d to get square, %d or to get diagonal_length  : ", PERIMETR, SQUARE,DIAGONAL_LENGHT);
 		int selectVariants = getNumberInt();
@@ -116,9 +111,9 @@ int getNumberInt()
 	abort();
 }
 
-int isCorrect(double A, double B, double C,double D)
+bool isCorrect(double A, double B, double C, double D)
 {
-	return fabs(A - C) < DBL_EPSILON && fabs(B - D) < DBL_EPSILON);
+	return fabs(A - C) < DBL_EPSILON && fabs(B - D) < DBL_EPSILON;
 }
 
 double getPerimetr(double A, double B)
@@ -128,7 +123,7 @@ double getPerimetr(double A, double B)
 
 double getSquare(double A, double B)
 {
-		return A * B;
+	return A * B;
 }
 
 double getDiagonalLength(double A, double B)
