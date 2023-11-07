@@ -61,12 +61,13 @@ int main() {
 double getValue() 
 {
     double value;
+    
     if (scanf_s(" %lf", &value) == 1 && value > 0)
-    {
-        return value;
+    { 
+        printf_s("Wrong value");
+        abort();
     }
-    printf_s("Wrong value");
-    abort();
+    return value;
 }
 double getTimeStartRest(double t1,double v1, double t2, double v2,double t3,double v3)
 {
@@ -80,10 +81,8 @@ double getTimeStartRest(double t1,double v1, double t2, double v2,double t3,doub
         {
             return (halfWay - getWay(t1, v1)) / v2 + t1;
         }
-        else
-        {
-            return (halfWay - getWay(t1, v1) - getWay(t2, v2)) / v3 + t1 + t2;
-        }
+     return (halfWay - getWay(t1, v1) - getWay(t2, v2)) / v3 + t1 + t2;
+        
        
  }
 
