@@ -1,8 +1,7 @@
-﻿//#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <malloc.h>
+﻿#include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
+
 /**
 * @brief считывает и проверяет ввод переменной типа int
 * @return Возвращает считанное значение
@@ -16,14 +15,11 @@ int GetInt(const char* const message);
 */
 void ReplacingNegativeElement(const size_t size, int* a);
 
-
-
 /**
 * @brief фунция подставляет число К после всех элементов, кратных своему номеру
-* @param x- число для сравнения пары соседних элементов.
 * @param size - размер массива
 * @param a -  массив
-* @return возвращает функцию
+* @return возвращает итоговый массив
 */
 void ValueK(const size_t size, int* a);
 
@@ -48,7 +44,7 @@ int* GetArray(const size_t size);
 * @param d - новый массив
 * @return возвращает новый массив
 */
-void GetNewArray(int* a, const size_t size);
+int* GetNewArray(int* a, const size_t size);
 
 /**
 * @brief функция для заполнения массива в ручную
@@ -73,7 +69,7 @@ void FreeArray(int* a);
 * @param size - размер массива
 * @param a -  массив
 */
-int* getCpyArray(const size_t size, const int* const a);
+int* GetCpyArray(const size_t size, const int* const a);
 /**
 * @brief функция для определения размера массива
 * @return возвращает размер массива
@@ -102,13 +98,14 @@ int main()
     default:
         puts("Incorrect input.\n");
         return 1;
-        break;
+       
     }
     PrintArray(a, size);
     puts("Task 1:");
-    int* secondArray = getCpyArray(size, a);
-    int* thirdArray = getCpyArray(size, a);
-    int* fourthArray = getCpyArray(size, a);
+    int* secondArray = GetCpyArray(size, a);
+    int* thirdArray = GetCpyArray(size, a);
+    int* fourthArray = GetCpyArray(size, a);
+    int* fiveArray = GetNewArray(*a, size);
     ReplacingNegativeElement(size, secondArray);
     PrintArray(secondArray, size);
     FreeArray(secondArray);
@@ -117,7 +114,7 @@ int main()
     ValueK(size, thirdArray);
     puts("\nTask 3:");
     PrintArray(fourthArray, size);
-    GetNewArray(size, fourthArray);
+    PrintArray(size, fiveArray);
     FreeArray(fourthArray);
     FreeArray(a);
 
@@ -154,7 +151,7 @@ size_t GetArraySize()
 int* GetArray(const size_t size)
 {
     int* a = malloc(size * sizeof(int));
-    
+
     if (NULL == a)
     {
         errno = ENOMEM;
@@ -191,7 +188,7 @@ void PrintArray(int* a, const size_t size)
     }
 }
 
-int* getCpyArray(const size_t size, const int* const a)
+int* GetCpyArray(const size_t size, const int* const a)
 {
     int* resultArray = GetArray(size);
     for (size_t i = 0; i < size; i++)
@@ -239,31 +236,29 @@ void ValueK(const size_t size, int* a)
     return 0;
 }
 
-
-void GetNewArray( const size_t size,int* a, size_t size_of_d)
+int* GetNewArray(int* a, const size_t size)
 {
-    int* d = (int*)malloc(size * sizeof(int));
+    int* d = GetArray(size);
     for (size_t i = 0; i < size; i++)
     {
         if ((i % 2) == 0)
         {
-            d[i] = (i-1)*a[i];
+            d[i] = (i - 1) * a[i];
         }
         else
         {
-           d[i] = a[i] * i*2;
+            d[i] = a[i] * i * 2;
         }
+        return d[i];
     }
-    for (size_t i = 0; i < size ; i++)
-    {
-        printf_s("%d ", d[i]);
-    }
-    return 0;
+    
 }
-void FreeArray(int* array)
+
+void FreeArray(int** a)
 {
-    if (NULL != array)
+    if (NULL != a)
     {
-        free(array);
+        free(a);
+        a = NULL;
     }
 }
