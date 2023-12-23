@@ -79,7 +79,7 @@ size_t GetArraySize();
 /**
 * @brief Выбор заполнения массива.
 */
-enum Case
+enum Manual
 {
     random = 1,
     enter = 2,
@@ -89,7 +89,7 @@ int main()
 {
     size_t size = GetArraySize();
     int* a = GetArray(size);
-    enum Case inputs = (enum Case)GetInt("Enter choice: ");
+    enum Manual inputs = (enum Manual)GetInt("Enter choice: ");
     switch (inputs)
     {
     case random:
