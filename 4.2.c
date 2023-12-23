@@ -105,7 +105,7 @@ int main()
     int* secondArray = GetCpyArray(size, a);
     int* thirdArray = GetCpyArray(size, a);
     int* fourthArray = GetCpyArray(size, a);
-    int* fiveArray = GetNewArray(*a, size);
+     
     ReplacingNegativeElement(size, secondArray);
     PrintArray(secondArray, size);
     FreeArray(secondArray);
@@ -114,7 +114,7 @@ int main()
     ValueK(size, thirdArray);
     puts("\nTask 3:");
     PrintArray(fourthArray, size);
-    PrintArray(size, fiveArray);
+    PrintArray(GetNewArray(*a, size),size);
     FreeArray(fourthArray);
     FreeArray(a);
 
