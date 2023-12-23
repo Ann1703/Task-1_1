@@ -76,6 +76,9 @@ int* GetCpyArray(const size_t size, const int* const a);
 */
 size_t GetArraySize();
 
+/**
+* @brief Выбор заполнения массива.
+*/
 enum Case
 {
     random = 1,
