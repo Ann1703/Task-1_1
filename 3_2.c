@@ -107,7 +107,7 @@ double GetSecondSum(const double epsilon)
 	double current = 1;
 	double sum = current;
 	int k = 1;
-	while (current >= epsilon)
+	while (fabs(current) >= epsilon)
 	{
 		current *= GetRecurrent(k);
 		sum += current;
