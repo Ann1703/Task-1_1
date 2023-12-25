@@ -19,7 +19,6 @@ void ReplacingNegativeElement(const size_t size, int* a);
 * @brief фунция подставляет число К после всех элементов, кратных своему номеру
 * @param size - размер массива
 * @param a -  массив
-* @return возвращает итоговый массив
 */
 void ValueK(const size_t size, int* a);
 
@@ -28,7 +27,7 @@ void ValueK(const size_t size, int* a);
 * @param size - размер массива
 * @param a -  массив
 */
-void PrintArray(int* a, const size_t size);
+void PrintArray(const int* a, const size_t size);
 
 /**
 * @brief функция для создания массива
@@ -44,20 +43,20 @@ int* GetArray(const size_t size);
 * @param d - новый массив
 * @return возвращает новый массив
 */
-int* GetNewArray(int* a, const size_t size);
+int* GetNewArray(const int* a, const size_t size);
 
 /**
 * @brief функция для заполнения массива в ручную
 * @param size - размер массива
 * @param a -  массив
 */
-void FillArray(int* a, const size_t size);
+void FillArray( int* a, const size_t size);
 /**
 * @brief функция для заполнения массива в рандомными числами
 * @param size - размер массива
 * @param a -  массив
 */
-void FillArrayRand(int* a, const size_t size);
+void FillArrayRandom( int* a, const size_t size);
 /**
 * @brief функция очищает массив
 * @param a -  массив
@@ -88,27 +87,27 @@ enum Manual
 int main()
 {
     size_t size = GetArraySize();
-    int* a = GetArray(size);
+    int* array = GetArray(size);
     enum Manual inputs = (enum Manual)GetInt("Enter choice: ");
     switch (inputs)
     {
     case random:
-        FillArrayRand(a, size);
+        FillArrayRandom(array, size);
         break;
     case enter:
-        FillArray(a, size);
+        FillArray(array, size);
         break;
     default:
         puts("Incorrect input.\n");
         return 1;
-       
+
     }
-    PrintArray(a, size);
+    PrintArray(array, size);
     puts("Task 1:");
-    int* secondArray = GetCpyArray(size, a);
-    int* thirdArray = GetCpyArray(size, a);
-    int* fourthArray = GetCpyArray(size, a);
-     
+    int* secondArray = GetCpyArray(size, array);
+    int* thirdArray = GetCpyArray(size, array);
+    int* fourthArray = GetCpyArray(size, array);
+
     ReplacingNegativeElement(size, secondArray);
     PrintArray(secondArray, size);
     FreeArray(secondArray);
@@ -117,9 +116,10 @@ int main()
     ValueK(size, thirdArray);
     puts("\nTask 3:");
     PrintArray(fourthArray, size);
-    PrintArray(GetNewArray(*a, size),size);
+    GetNewArray(*array, size);
+    PrintArray(fourthArray, size);
     FreeArray(fourthArray);
-    FreeArray(a);
+    FreeArray(array);
 
     return 0;
 }
@@ -153,67 +153,67 @@ size_t GetArraySize()
 
 int* GetArray(const size_t size)
 {
-    int* a = malloc(size * sizeof(int));
+    int* array = malloc(size * sizeof(int));
 
-    if (NULL == a)
+    if (NULL == array)
     {
         errno = ENOMEM;
         perror("Error :");
         abort();
     }
 
-    return a;
+    return array;
 }
 
-void FillArray(int* a, const size_t size)
+void FillArray(int* array, const size_t size)
 {
     puts("Enter array elements: ");
     for (size_t i = 0; i < size; i++)
     {
-        a[i] = GetInt("Input element = ");
+        array[i] = GetInt("Input element = ");
     }
 }
-void FillArrayRand(int* a, const size_t size)
+void FillArrayRandom(int* array, const size_t size)
 {
     puts("Enter array elements: ");
     for (size_t i = 0; i < size; i++)
     {
-        a[i] = rand() % 200 - 100; // диапазон случайных чисел от -100 до 100
+        array[i] = rand() % 200 - 100; // диапазон случайных чисел от -100 до 100
     }
 }
 
-void PrintArray(int* a, const size_t size)
+void PrintArray(const  int* array, const size_t size)
 {
     puts("Array elements: ");
     for (size_t i = 0; i < size; i++)
     {
-        printf("Element %zu = %d\n", i, a[i]);
+        printf("Element %zu = %d\n", i, array[i]);
     }
 }
 
-int* GetCpyArray(const size_t size, const int* const a)
+int* GetCpyArray(const size_t size, const int* const array)
 {
     int* resultArray = GetArray(size);
     for (size_t i = 0; i < size; i++)
     {
-        resultArray[i] = a[i];
+        resultArray[i] = array[i];
     }
 
     return resultArray;
 }
 
-void ReplacingNegativeElement(const size_t size, int* a)
+void ReplacingNegativeElement(const size_t size, int* array)
 {
     for (size_t i = 0; i < size; i++) {
-        if (a[i] < 0) {
-            a[i] = 0;
+        if (array[i] < 0) {
+            array[i] = 0;
             break;
         }
     }
 }
 
 
-void ValueK(const size_t size, int* a)
+void ValueK(const size_t size, int* array)
 {
     int k = GetInt("Enter array elements:");
     int m = 0;
@@ -221,47 +221,47 @@ void ValueK(const size_t size, int* a)
     int j;
     for (i = 0; i <= size; i++)
     {
-        if ((a[i] % (i + 1)) == 0)
+        if ((array[i] % (i + 1)) == 0)
         {
             for (j = size + m; j > i + 1; j--)
             {
-                a[j] = a[j - 1];
+                array[j] = array[j - 1];
             }
-            a[i + 1] = k;
+            array[i + 1] = k;
             m += 1;
         }
     }
     for (size_t i = 0; i < size + m; i++)
     {
-        printf_s("%d  ", a[i]);
+        printf_s("%d  ", array[i]);
     }
 
-    return 0;
+    
 }
 
-int* GetNewArray(int* a, const size_t size)
+int* GetNewArray(const int* array, const size_t size)
 {
-    int* d = GetArray(size);
+    int* NewArray = GetArray(size);
     for (size_t i = 0; i < size; i++)
     {
         if ((i % 2) == 0)
         {
-            d[i] = (i - 1) * a[i];
+            NewArray[i] = (i - 1) * array[i];
         }
         else
         {
-            d[i] = a[i] * i * 2;
+            NewArray[i] = array[i] * i * 2;
         }
-        return d[i];
+        return NewArray[i];
     }
-    
+
 }
 
-void FreeArray(int** a)
+void FreeArray(int* array)
 {
-    if (NULL != a)
+    if (NULL != array)
     {
-        free(a);
-        a = NULL;
+        free(array);
+        array = NULL;
     }
 }
