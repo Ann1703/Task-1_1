@@ -13,21 +13,34 @@ int GetInt(const char* const message);
 * @param size - размер массива
 * @param a -  массив
 */
-void ReplacingNegativeElement(const size_t size, int* a);
+void ReplacingNegativeElement(const size_t size, int* array);
+
+/**
+* @brief фунция подставляет число К после всех элементов, кратных своему номеру
+* @param k - ввод числа k для задания 2
+*/
+int GetK();
 
 /**
 * @brief фунция подставляет число К после всех элементов, кратных своему номеру
 * @param size - размер массива
 * @param a -  массив
 */
-void ValueK(const size_t size, int* a);
+size_t ValueK(size_t size, int* array, int* count);
+
+/**
+* @brief подсичтывает количество элементов в массиве
+* @param count - переменная в которую записывает сколько элементов в массиве
+*/
+
+int GetCount(const size_t size, int* array);
 
 /**
 * @brief функция печатает массив
 * @param size - размер массива
 * @param a -  массив
 */
-void PrintArray(const int* a, const size_t size);
+void PrintArray(const int* array, const size_t size);
 
 /**
 * @brief функция для создания массива
@@ -36,6 +49,7 @@ void PrintArray(const int* a, const size_t size);
 * @return возвращает массив
 */
 int* GetArray(const size_t size);
+
 /**
 * @brief функция для 3 пукнта задания
 * @param size - размер массива
@@ -43,32 +57,36 @@ int* GetArray(const size_t size);
 * @param d - новый массив
 * @return возвращает новый массив
 */
-int* GetNewArray(const int* a, const size_t size);
+int* GetNewArray(int* array, const size_t size);
 
 /**
 * @brief функция для заполнения массива в ручную
 * @param size - размер массива
 * @param a -  массив
 */
-void FillArray( int* a, const size_t size);
+void FillArray(int* array, const size_t size);
+
 /**
 * @brief функция для заполнения массива в рандомными числами
 * @param size - размер массива
 * @param a -  массив
 */
-void FillArrayRandom( int* a, const size_t size);
+void FillArrayRandom(int* array, const size_t size);
+
 /**
 * @brief функция очищает массив
 * @param a -  массив
 */
-void FreeArray(int* a);
+void FreeArray(int* array);
+
 /**
 * @brief функция копирует массив
 * @param resultArray - копия массива
 * @param size - размер массива
 * @param a -  массив
 */
-int* GetCpyArray(const size_t size, const int* const a);
+int* GetCpyArray(const size_t size, const int* const array);
+
 /**
 * @brief функция для определения размера массива
 * @return возвращает размер массива
@@ -88,6 +106,7 @@ int main()
 {
     size_t size = GetArraySize();
     int* array = GetArray(size);
+
     enum Manual inputs = (enum Manual)GetInt("Enter choice: ");
     switch (inputs)
     {
@@ -100,27 +119,25 @@ int main()
     default:
         puts("Incorrect input.\n");
         return 1;
-
+        break;
     }
+
     PrintArray(array, size);
     puts("Task 1:");
     int* secondArray = GetCpyArray(size, array);
-    int* thirdArray = GetCpyArray(size, array);
-    int* fourthArray = GetCpyArray(size, array);
-
     ReplacingNegativeElement(size, secondArray);
     PrintArray(secondArray, size);
     FreeArray(secondArray);
     puts("Task 2:");
-    PrintArray(thirdArray, size);
-    ValueK(size, thirdArray);
+    int k = GetK();
+    int* thirdArray = GetCpyArray(size, array);
+    size_t size3 = ValueK(size, thirdArray, k);
+    PrintArray(thirdArray, size3);
     puts("\nTask 3:");
+    int* fourthArray = GetCpyArray(size, array);
     PrintArray(fourthArray, size);
-    GetNewArray(*array, size);
+    GetNewArray(fourthArray, size);
     PrintArray(fourthArray, size);
-    FreeArray(fourthArray);
-    FreeArray(array);
-
     return 0;
 }
 
@@ -175,10 +192,11 @@ void FillArray(int* array, const size_t size)
 }
 void FillArrayRandom(int* array, const size_t size)
 {
+    srand(time(NULL));
     puts("Enter array elements: ");
     for (size_t i = 0; i < size; i++)
     {
-        array[i] = rand() % 200 - 100; // диапазон случайных чисел от -100 до 100
+        array[i] = rand() % 200 - 100; 
     }
 }
 
@@ -212,52 +230,55 @@ void ReplacingNegativeElement(const size_t size, int* array)
     }
 }
 
+int GetCount(const size_t size, int* array)
+{
+    int count = 0;
+    for (size_t i = 0; i < size; i++)
+    {
+        count++;
+    }
+    return count;
+}
 
-void ValueK(const size_t size, int* array)
+int GetK()
 {
     int k = GetInt("Enter array elements:");
-    int m = 0;
-    size_t i;
-    int j;
-    for (i = 0; i <= size; i++)
-    {
-        if ((array[i] % (i + 1)) == 0)
-        {
-            for (j = size + m; j > i + 1; j--)
-            {
+    return k;
+}
+
+size_t ValueK(size_t size, int* array, int k)
+{
+    int addedItems = 0;
+    for (int i = 0; i < size + addedItems; i++) {
+        if (array[i] % (i - addedItems + 1) == 0) {
+            for (int j = size + addedItems; j > i + 1; j--) {
                 array[j] = array[j - 1];
             }
             array[i + 1] = k;
-            m += 1;
+            i++; 
+            addedItems++;
         }
     }
-    for (size_t i = 0; i < size + m; i++)
-    {
-        printf_s("%d  ", array[i]);
-    }
-
-    
+    return size + addedItems;
 }
 
-int* GetNewArray(const int* array, const size_t size)
+int* GetNewArray( int* array, const size_t size)
 {
     int* NewArray = GetArray(size);
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 1; i < size; i++)
     {
-        if ((i % 2) == 0)
+        if ((i % 2) != 0)
         {
-            NewArray[i] = (i - 1) * array[i];
+            array[i] = (i - 1) * array[i];
         }
         else
         {
-            NewArray[i] = array[i] * i * 2;
+            array[i] = array[i] * i * 2;
         }
-        return NewArray[i];
     }
-
+    return array;
 }
-
-void FreeArray(int* array)
+void FreeArray(int** array)
 {
     if (NULL != array)
     {
