@@ -82,7 +82,7 @@ double GetSeriesSum(double x, double e)
 {
 	double current = 1;
 	double sum = current;
-	double n = 1;
+	int n = 1;
 
 	while (fabs(current)  > e)
 	{
@@ -114,7 +114,7 @@ void CheckStep(double step)
 
 void CheckSegment(const double beginning_interval, const double end_interval)
 {
-	if (beginning_interval - end_interval > -DBL_EPSILON)
+	if (beginning_interval - end_interval > DBL_EPSILON)
 	{
 		puts("The interval is entered incorrectly!");
 		abort();
