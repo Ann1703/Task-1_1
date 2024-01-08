@@ -1,9 +1,6 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
 #include <errno.h>
-#include <stdbool.h>
-
 
 /**
 * @brief считывает и проверяет ввод переменной типа int
@@ -30,10 +27,6 @@ int** get_array(const size_t rows, const size_t columns);
 * @brief Функция для обработки ошибки выделения памяти
 */
 void array_null();
-/**
-* @brief Функция для проверки четности
-*/
-bool is_even(size_t number);
 
 /**
 * @brief Функция для заполнения массива в ручную
@@ -48,6 +41,8 @@ void fill_array(int** const array, const size_t rows, const size_t columns);
 * @param array -  массив
 * @param rows -  строка массива
 * @param columns -  столбец массива
+* @param MinEnterval -  минимальное значение интервала для генерации чисел
+* @param MaxEnterval -  максимальное значение интервала для генерации чисел
 */
 void fill_array_random(int** const array, const size_t rows, const size_t columns);
 /**
@@ -66,7 +61,7 @@ void show_array(int** const array, const size_t rows, const size_t columns);
 * @param rows -  строка массива
 * @param columns -  столбец массива
 */
-void second_task(int** control_array, int** array, size_t rows, size_t cols);
+int* second_task(int** control_array, size_t rows, size_t cols);
 
 /**
 * @brief функция копирует массив
@@ -83,7 +78,7 @@ int** copy_array(int** const array_original, const size_t rows, const size_t col
 * @param columns -  столбец массива
 * @param array_original -  массив
 */
-void replace_array(int** const array, const size_t rows, const size_t columns);
+int** replace_array(int** myarray, const size_t rows, const size_t columns);
 
 /**
 * @brief функция ищет максимальный элемент в каждой строке
@@ -92,6 +87,14 @@ void replace_array(int** const array, const size_t rows, const size_t columns);
 * @param array_original -  массив
 */
 int FindMax(int** const array_original, const size_t rows, const size_t columns);
+
+/**
+* @brief функция ищет максимальный элемент в каждой строке
+* @param rows -  строка массива
+* @param columns -  столбец массива
+* @param array_original -  массив
+*/
+int* FindMaxArray(int** const array_original, const size_t rows, const size_t columns);
 
 /**
 * @brief Функция для освобождения памяти, выделенной под массив
@@ -114,35 +117,33 @@ int main(void)
     const size_t rows = get_size_t("Input rows: ");
     const size_t columns = get_size_t("Input columns: ");
     int** origin_array = get_array(rows, columns);
-    
+
     enum Manual inputs = (enum Manual)get_int("Enter choice: ");
     switch (inputs)
     {
     case random:
-        fill_array_random(origin_array, rows,columns);
+        fill_array_random(origin_array, rows, columns);
         break;
     case enter:
-        fill_array(origin_array, rows,columns);
+        fill_array(origin_array, rows, columns);
         break;
     default:
         puts("Incorrect input.\n");
         return 1;
-
+        break;
     }
 
-    
     show_array(origin_array, rows, columns);
     puts("Task1\n");
-    int** secondArray = copy_array(origin_array,rows,columns);
-    replace_array(secondArray, rows, columns);
-    show_array(secondArray, rows,columns);
+    int** secondArray = replace_array(origin_array, rows, columns);
+    show_array(secondArray, rows, columns);
     free_array(secondArray, rows);
 
     puts("Task2");
-    int** task_2_array = get_array(rows, columns * 2);
-    second_task(origin_array, task_2_array, rows, columns * 2);
-    show_array(task_2_array, rows, columns * 2);
-    
+    int** task_2_array = second_task(origin_array, rows, columns);
+
+    show_array(task_2_array, rows, columns + 1);
+
     free_array(origin_array, rows);
     return 0;
 }
@@ -180,31 +181,6 @@ void array_null()
     abort();
 }
 
-void second_task(int** control_array, int** array, size_t rows, size_t columns)
-{
-    size_t top_row = 0, top_col = 0;
-    for (size_t i = 0; i < columns; i++)
-    {
-        if (is_even(i))
-        {
-            for (size_t j = 0; j < rows; j++)
-            {
-                array[j][i] = control_array[top_row][top_col];
-                top_row++;
-            }
-            top_col++;
-            top_row = 0;
-        }
-        else
-        {
-            for (size_t j = 0; j < rows; j++)
-            {
-                array[j][i] = 0;
-            }
-        }
-    }
-}
-
 int** get_array(const size_t rows, const size_t columns)
 {
     int** array = (int**)malloc(rows * sizeof(int*));
@@ -221,7 +197,6 @@ int** get_array(const size_t rows, const size_t columns)
             array_null();
         }
     }
-
     return array;
 }
 
@@ -237,26 +212,26 @@ void fill_array(int** const array, const size_t rows, const size_t columns)
         }
     }
 }
+
 void fill_array_random(int** const array, const size_t rows, const size_t columns)
 {
     puts("Insert array elements:\n");
-
+    int MinEnterval = get_int("Enter the beginning of the interval: ");
+    int MaxEnterval = get_int("Enter the end of the interval : ");
+    srand(time(NULL));
     for (size_t i = 0; i < rows; i++)
     {
         for (size_t j = 0; j < columns; j++)
         {
-            array[i][j] = rand() % 200 - 100;
+            if (MinEnterval > -100 && MaxEnterval < 100) {
+                array[i][j] = MinEnterval + rand() % (MaxEnterval - MinEnterval + 1);
+            }
+            else
+            {
+                puts("The entered value does not satisfy the condition!");
+            }
         }
     }
-}
-
-bool is_even(size_t number)
-{
-    if (number % 2 == 0)
-    {
-        return true;
-    }
-    return false;
 }
 
 void show_array(int** const array, const size_t rows, const size_t columns)
@@ -300,25 +275,67 @@ int** copy_array(int** const array_original, const size_t rows, const size_t col
     return array_copy;
 }
 
-void replace_array(int** const array, const size_t rows, const size_t columns) 
+int** replace_array(int** myarray, const size_t rows, const size_t columns)
 {
-    for (size_t i = 0; i < columns; i++)
+    int** newarray = copy_array(myarray, rows, columns);
+    for (size_t i = 0; i < rows; i++)
     {
-        int max = FindMax(array,i,columns);
-        array[i][max] *= -1;
-    }
-
-}
-int FindMax(int** array_original, const size_t rows, const size_t columns)
-{
-    int max = 0;
-    for (size_t j = 0; j < columns; j++)
-    {
-        if (array_original[rows][j] > array_original[rows][max])
+        int max = FindMax(newarray, i, columns);
+        for (size_t j = 0; j < columns; j++)
         {
-            max = j;
+            if (newarray[i][j] == max)
+            {
+                newarray[i][j] *= -1;
+            }
+        }
+    }
+    return newarray;
+}
+int* second_task(int** control_array, size_t rows, size_t columns)
+{
+    int** newarray2 = copy_array(control_array, rows, columns);
+    int maxColumn = FindMaxArray(newarray2, rows, columns);
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = columns; j > maxColumn; j--)
+        {
+            newarray2[i][j] = newarray2[i][j - 1];
+        }
+        newarray2[i][maxColumn + 1] = 0;
+    }
+    return newarray2;
+}
+
+int FindMax(int** const array_original, const size_t rows, const size_t columns)
+{
+    int max = array_original[rows][0];
+    for (size_t j = 1; j < columns; j++)
+    {
+        if (array_original[rows][j] > max)
+        {
+            max = array_original[rows][j];
         }
     }
     return max;
-
 }
+
+int* FindMaxArray(int** array_original, const size_t rows, const size_t columns)
+{
+    int maxElement = array_original[0][0];
+    int maxColumn = 0;
+    for (int j = 0; j < columns; j++)
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            if (array_original[i][j] > maxElement)
+            {
+                maxElement = array_original[i][j];
+                maxColumn = j;
+            }
+        }
+    }
+    return maxColumn;
+}
+
+
+
+
