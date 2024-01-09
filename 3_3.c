@@ -11,21 +11,21 @@
 * @param n Индекс члена ряда.
 * @return Значение рекуррентного члена.
 */
-double GetRecurrent(double x, double n);
+double GetRecurrent(int x, double n);
 
 /**
 * @brief Функция для вычисления суммы ряда.
 * @param x Показатель степени.
 * @return Результат 3-го значения в степени x.
 */
-double GetSeriesSum(double x, double e);
+double GetSeriesSum(int x, double e);
 
 /**
 * @brief Функция для вычисления значения функции.
 * @param x - аргумент функции.
 * @return Значение функции.
 */
-double GetFunction(double x);
+double GetFunction(int x);
 
 /**
 * @brief Функция проверки ввода шага на правильность.
@@ -55,7 +55,7 @@ void CheckSegment(const double beginning_interval, const double end_interval);
 * @param x - аргумент функции.
 * @return Возвращает значение первого элемента последовательности.
 */
-double GetFirstElement(double x);
+double GetFirstElement(int x);
 
 /**
 * @brief Точка входа в программу.
@@ -78,7 +78,7 @@ int main()
 	return 0;
 }
 
-double GetSeriesSum(double x, double e)
+double GetSeriesSum(int x, double e)
 {
 	double current = 1;
 	double sum = current;
@@ -93,14 +93,14 @@ double GetSeriesSum(double x, double e)
 	return sum;
 }
 
-double GetRecurrent(double x, double n)
+double GetRecurrent(int x, double n)
 {
 	return pow(x, 4) / ((4 *n  + 1) * (4 * n + 5));
 }
 
-double GetFunction(double x)
+double GetFunction(int x)
 {
-	return 0,25*log((1+x)/(1-x))+0,5*atan(x);
+	return 0.25*log((1+x)/(1-x))+0.5*atan(x);
 }
 
 void CheckStep(double step)
@@ -136,7 +136,7 @@ double  GetValue(const char* message)
 	return value;
 }
 
-double GetFirstElement(double x)
+double GetFirstElement(int x)
 {
 	double current = pow(x, 5) / 5;
 	return current;
