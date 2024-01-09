@@ -244,10 +244,17 @@ void show_array(int** const array, const size_t rows, const size_t columns)
     puts("\n");
 }
 
-void free_array(int** array, size_t rows)
+void free_array(int*** array, size_t rows)
 {
+    for (size_t i = 0; i < rows; i++)
+       
+    {
+        free(**array);
+        **array = NULL;
+    }
     free(*array);
     *array = NULL;
+
 }
 
 int** copy_array(int** const array_original, const size_t rows, const size_t columns)
