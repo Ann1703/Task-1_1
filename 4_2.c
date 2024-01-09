@@ -17,12 +17,6 @@ void ReplacingNegativeElement(const size_t size, int* array);
 
 /**
 * @brief фунция подставляет число К после всех элементов, кратных своему номеру
-* @param k - ввод числа k для задания 2
-*/
-int GetK();
-
-/**
-* @brief фунция подставляет число К после всех элементов, кратных своему номеру
 * @param size - размер массива
 * @param a -  массив
 */
@@ -31,6 +25,7 @@ size_t ValueK(size_t size, int* array, int* count);
 /**
 * @brief подсичтывает количество элементов в массиве
 * @param count - переменная в которую записывает сколько элементов в массиве
+* @return count - возвращает количество элементов в массиве
 */
 
 int GetCount(const size_t size, int* array);
@@ -88,6 +83,7 @@ void FreeArray(int* array);
 * @param resultArray - копия массива
 * @param size - размер массива
 * @param a -  массив
+* @return resultArray - возвращает копию массива
 */
 int* GetCpyArray(const size_t size, const int* const array);
 
@@ -123,7 +119,6 @@ int main()
     default:
         puts("Incorrect input.\n");
         return 1;
-        break;
     }
 
     PrintArray(array, size);
@@ -131,17 +126,19 @@ int main()
     int* secondArray = GetCpyArray(size, array);
     ReplacingNegativeElement(size, secondArray);
     PrintArray(secondArray, size);
-    FreeArray(secondArray);
+    FreeArray(&secondArray);
     puts("Task 2:");
-    int k = GetK();
+    int k = GetInt("Enter array elements:");
     int* thirdArray = GetCpyArray(size, array);
-    size_t size3 = ValueK(size, thirdArray, k);
+    size_t size3 = ValueK(size, thirdArray,k);
     PrintArray(thirdArray, size3);
+    FreeArray(&thirdArray);
     puts("\nTask 3:");
     int* fourthArray = GetCpyArray(size, array);
     PrintArray(fourthArray, size);
     GetNewArray(fourthArray, size);
     PrintArray(fourthArray, size);
+    FreeArray(&fourthArray);
     return 0;
 }
 
@@ -193,34 +190,26 @@ void FillArray(int* array, const size_t size)
     puts("Enter array elements: ");
     for (size_t i = 0; i < size; i++)
     {
-        if (MinEnterval > -101 && MaxEnterval < 101)
-        {
-            array[i] = GetInt("Input element = ");
-        }
-        else
-        {
-            puts("The entered value does not satisfy the condition!");
-            abort();
-        }
+      array[i] = GetInt("Input element = ");
     }
 }
 void FillArrayRandom(int* array, const size_t size)
 {
-    srand(time(NULL));
+    
     puts("Enter array elements: ");
     int MinEnterval = GetInt("Enter the beginning of the interval: ");
     int MaxEnterval = GetInt("Enter the end of the interval : ");
-    for (size_t i = 0; i < size; i++)
+    if (MinEnterval > MaxEnterval)
     {
-        if (MinEnterval > -101 && MaxEnterval < 101) {
-            array[i] = MinEnterval + rand() % (MaxEnterval - MinEnterval + 1);
-        }
-        else
-        {
-            puts("The entered value does not satisfy the condition!");
-            abort();
-        }
+        perror("Error: ");
+        abort();
     }
+    srand(time(NULL));
+    for (size_t i = 0; i < size; i++)
+    {    
+      array[i] = MinEnterval + rand() % (MaxEnterval - MinEnterval + 1);
+    }
+  
 }
 
 void PrintArray(const  int* array, const size_t size)
@@ -239,7 +228,6 @@ int* GetCpyArray(const size_t size, const int* const array)
     {
         resultArray[i] = array[i];
     }
-
     return resultArray;
 }
 
@@ -263,18 +251,13 @@ int GetCount(const size_t size, int* array)
     return count;
 }
 
-int GetK()
-{
-    int k = GetInt("Enter array elements:");
-    return k;
-}
-
 size_t ValueK(size_t size, int* array, int k)
 {
+    
     int addedItems = 0;
-    for (int i = 0; i < size + addedItems; i++) {
+    for (size_t i = 0; i < size + addedItems; i++) {
         if (array[i] % (i - addedItems + 1) == 0) {
-            for (int j = size + addedItems; j > i + 1; j--) {
+            for (size_t j = size + addedItems; j > i + 1; j--) {
                 array[j] = array[j - 1];
             }
             array[i + 1] = k;
@@ -292,20 +275,17 @@ int* GetNewArray(int* array, const size_t size)
     {
         if ((i % 2) != 0)
         {
-            array[i] = (i - 1) * array[i];
+            array[i] = ((int)i - 1) * array[i];
         }
         else
         {
-            array[i] = array[i] * i * 2;
+            array[i] = array[i] * (int) i * 2;
         }
     }
     return array;
 }
 void FreeArray(int** array)
 {
-    if (NULL != array)
-    {
-        free(array);
-        array = NULL;
-    }
+    free(*array);
+    *array = NULL;
 }
