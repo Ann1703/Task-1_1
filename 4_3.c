@@ -33,6 +33,8 @@ void array_null();
 * @param array -  массив
 * @param rows -  строка массива
 * @param columns -  столбец массива
+* @param MinEnterval -  минимальное значение интервала для генерации чисел
+* @param MaxEnterval -  максимальное значение интервала для генерации чисел
 */
 void fill_array(int** const array, const size_t rows, const size_t columns);
 
@@ -56,10 +58,9 @@ void show_array(int** const array, const size_t rows, const size_t columns);
 
 /**
 * @brief функция вставляет после всех столбцов, содержащих максимальный элемент столбец из нулей
-* @param top_row - переменная для вставки 0 в строку
-* @param top_сol -  переменная для вставки 0 в столбец
 * @param rows -  строка массива
 * @param columns -  столбец массива
+* @param maxColumn -  максимальное значение матрицы
 */
 int* second_task(int** control_array, size_t rows, size_t cols);
 
