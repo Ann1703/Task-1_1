@@ -203,12 +203,21 @@ int** get_array(const size_t rows, const size_t columns)
 void fill_array(int** const array, const size_t rows, const size_t columns)
 {
     puts("Insert array elements:\n");
-
+    int MinEnterval = get_int("Enter the beginning of the interval: ");
+    int MaxEnterval = get_int("Enter the end of the interval : ");
     for (size_t i = 0; i < rows; i++)
     {
         for (size_t j = 0; j < columns; j++)
         {
-            array[i][j] = get_int("Get element");
+            if (MinEnterval > -101 && MaxEnterval < 101) 
+            {
+                array[i][j] = get_int("Get element");
+            }
+            else
+            {
+                puts("The entered value does not satisfy the condition!");
+                abort();
+            }
         }
     }
 }
@@ -223,12 +232,13 @@ void fill_array_random(int** const array, const size_t rows, const size_t column
     {
         for (size_t j = 0; j < columns; j++)
         {
-            if (MinEnterval > -100 && MaxEnterval < 100) {
+            if (MinEnterval > -101 && MaxEnterval < 101) {
                 array[i][j] = MinEnterval + rand() % (MaxEnterval - MinEnterval + 1);
             }
             else
             {
                 puts("The entered value does not satisfy the condition!");
+                abort();
             }
         }
     }
