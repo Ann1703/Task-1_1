@@ -33,8 +33,7 @@ void array_null();
 * @param array -  массив
 * @param rows -  строка массива
 * @param columns -  столбец массива
-* @param MinEnterval -  минимальное значение интервала для генерации чисел
-* @param MaxEnterval -  максимальное значение интервала для генерации чисел
+
 */
 void fill_array(int** const array, const size_t rows, const size_t columns);
 
@@ -138,14 +137,12 @@ int main(void)
     puts("Task1\n");
     int** secondArray = replace_array(origin_array, rows, columns);
     show_array(secondArray, rows, columns);
-    free_array(secondArray, rows);
+    free_array(&secondArray, rows);
 
     puts("Task2");
     int** task_2_array = second_task(origin_array, rows, columns);
-
     show_array(task_2_array, rows, columns + 1);
-
-    free_array(origin_array, rows);
+    free_array(&origin_array, rows);
     return 0;
 }
 
@@ -204,21 +201,11 @@ int** get_array(const size_t rows, const size_t columns)
 void fill_array(int** const array, const size_t rows, const size_t columns)
 {
     puts("Insert array elements:\n");
-    int MinEnterval = get_int("Enter the beginning of the interval: ");
-    int MaxEnterval = get_int("Enter the end of the interval : ");
     for (size_t i = 0; i < rows; i++)
     {
         for (size_t j = 0; j < columns; j++)
         {
-            if (MinEnterval > -101 && MaxEnterval < 101) 
-            {
-                array[i][j] = get_int("Get element");
-            }
-            else
-            {
-                puts("The entered value does not satisfy the condition!");
-                abort();
-            }
+          array[i][j] = get_int("Get element");
         }
     }
 }
@@ -228,20 +215,19 @@ void fill_array_random(int** const array, const size_t rows, const size_t column
     puts("Insert array elements:\n");
     int MinEnterval = get_int("Enter the beginning of the interval: ");
     int MaxEnterval = get_int("Enter the end of the interval : ");
+    
+    if (MinEnterval > MaxEnterval) 
+    {
+        perror("Error: ");
+        abort();
+    }
     srand(time(NULL));
     for (size_t i = 0; i < rows; i++)
     {
-        for (size_t j = 0; j < columns; j++)
-        {
-            if (MinEnterval > -101 && MaxEnterval < 101) {
-                array[i][j] = MinEnterval + rand() % (MaxEnterval - MinEnterval + 1);
-            }
-            else
-            {
-                puts("The entered value does not satisfy the condition!");
-                abort();
-            }
-        }
+      for (size_t j = 0; j < columns; j++)
+      {
+        array[i][j] = MinEnterval + rand() % (MaxEnterval - MinEnterval + 1);
+      }
     }
 }
 
@@ -260,17 +246,8 @@ void show_array(int** const array, const size_t rows, const size_t columns)
 
 void free_array(int** array, size_t rows)
 {
-    for (size_t i = 0; i < rows; i++)
-    {
-        if (NULL != array[i])
-        {
-            free(array[i]);
-        }
-    }
-    if (NULL != array)
-    {
-        free(array);
-    }
+    free(*array);
+    *array = NULL;
 }
 
 int** copy_array(int** const array_original, const size_t rows, const size_t columns)
@@ -283,7 +260,7 @@ int** copy_array(int** const array_original, const size_t rows, const size_t col
             array_copy[i][j] = array_original[i][j];
         }
     }
-    return array_copy;
+  return array_copy;
 }
 
 int** replace_array(int** myarray, const size_t rows, const size_t columns)
