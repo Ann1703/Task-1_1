@@ -58,8 +58,6 @@ int* GetNewArray(int* array, const size_t size);
 * @brief функция для заполнения массива в ручную
 * @param size - размер массива
 * @param a -  массив
-* @param MinEnterval -  минимальное значение интервала для генерации чисел
-* @param MaxEnterval -  максимальное значение интервала для генерации чисел
 */
 void FillArray(int* array, const size_t size);
 
@@ -185,8 +183,6 @@ int* GetArray(const size_t size)
 
 void FillArray(int* array, const size_t size)
 {
-    int MinEnterval = GetInt("Enter the beginning of the interval: ");
-    int MaxEnterval = GetInt("Enter the end of the interval : ");
     puts("Enter array elements: ");
     for (size_t i = 0; i < size; i++)
     {
